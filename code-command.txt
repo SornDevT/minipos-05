@@ -1,0 +1,14 @@
+ຄຳສັ່ງ Laravel + Vue
+
+- composer install / composer i     : ເປັນຄຳສັ່ງຕິດຕັ້ງ library ຂອງ Laravel
+- npm install / npm i               : ຄຳສັ່ງຕິດຕັ້ງ nodejs 
+- php artisan serve                 : ຄຳສັ່ງ Run Serve ຂອງ Laravel
+- npm run dev                       : ຄຳສັ່ງ Run compli Vue
+- npm run watch                     : ຄຳສັ່ງ Run ຕິດຕາມ ແລະ compli Vue
+
+ຄຳສັ່ງຂອງ Git
+- git add . / git add ຊື່ໄຟລ໌          : ເປັນການ ເພີ່ມໄຟລ໌ ເຂົ້າໄປໃນ git
+- git commit -m "ຄຳອະທິບາຍ"          : ເປັນການ ຄອມມິດໂຄດ
+- git push                          : ເປັນການ ອັບໂຫຼດ code ຂື້ນ github
+- git pull                          : ເປັນການ ອັບເດດ Code ລ່າສຸດຈາກ github
+- git add . && git commit -m "ຄຳອະທິບາຍ" && git push  : ວິທີຂຽນລວມກັນແຖວດຽວ
