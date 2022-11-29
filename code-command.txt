@@ -5,6 +5,7 @@
 - php artisan serve                 : ຄຳສັ່ງ Run Serve ຂອງ Laravel
 - npm run dev                       : ຄຳສັ່ງ Run compli Vue
 - npm run watch                     : ຄຳສັ່ງ Run ຕິດຕາມ ແລະ compli Vue
+- php artisan key:generate          : ຄຳສັ່ງ ສ້າງ Key ຂອງ Laravel
 
 ຄຳສັ່ງຂອງ Git
 - git add . / git add ຊື່ໄຟລ໌          : ເປັນການ ເພີ່ມໄຟລ໌ ເຂົ້າໄປໃນ git
