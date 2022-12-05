@@ -19806,10 +19806,123 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Minipos5Store',
   data: function data() {
-    return {};
+    return {
+      EditID: '',
+      FormShow: false,
+      FormType: false,
+      StoreData: [{
+        "id": 326,
+        "name": "ຄັນຮົ່ມ",
+        "amount": 50,
+        "price_buy": "15000",
+        "price_sell": "30000"
+      }, {
+        "id": 978,
+        "name": "ເກີບຜ້າໃບ",
+        "amount": 20,
+        "price_buy": "20000",
+        "price_sell": "50000"
+      }, {
+        "id": 357,
+        "name": "ໂສ້ງຜູ້ຊາຍ",
+        "amount": 20,
+        "price_buy": "40000",
+        "price_sell": "80000"
+      }, {
+        "id": 128,
+        "name": "ສະບູ່ລ້າງໜ້າ",
+        "amount": 40,
+        "price_buy": "30000",
+        "price_sell": "40000"
+      }],
+      FormStore: {
+        name: '',
+        amount: '',
+        price_buy: '',
+        price_sell: ''
+      }
+    };
   },
   mounted: function mounted() {},
-  methods: {}
+  methods: {
+    add_store: function add_store() {
+      this.FormShow = true;
+    },
+    close_form: function close_form() {
+      this.FormShow = false;
+    },
+    save_data: function save_data() {
+      var _this = this;
+      if (this.FormType) {
+        // ຖ້າຫາກວ່າໂຕແປ FormType ມີຄ່າເປັນ True
+
+        // ອັບເດດຂໍ້ມູນ
+        this.StoreData.find(function (i) {
+          return i.id == _this.EditID;
+        }).name = this.FormStore.name;
+        this.StoreData.find(function (i) {
+          return i.id == _this.EditID;
+        }).amount = this.FormStore.amount;
+        this.StoreData.find(function (i) {
+          return i.id == _this.EditID;
+        }).price_buy = this.FormStore.price_buy;
+        this.StoreData.find(function (i) {
+          return i.id == _this.EditID;
+        }).price_sell = this.FormStore.price_sell;
+      } else {
+        // ຖ້າຫາກວ່າໂຕແປ FormType ບໍ່ມີຄ່າເປັນ True
+
+        // ເພີ່ມຂໍ້ມູນໃໝ່
+        this.StoreData.push({
+          id: Math.floor(Math.random() * 1000),
+          name: this.FormStore.name,
+          amount: this.FormStore.amount,
+          price_buy: this.FormStore.price_buy,
+          price_sell: this.FormStore.price_sell
+        });
+      }
+
+      // ເຄີຍຂໍ້ມູນໃນຟອມ
+      this.FormStore.name = '';
+      this.FormStore.amount = '';
+      this.FormStore.price_buy = '';
+      this.FormStore.price_sell = '';
+
+      // ປິດຟອມ
+      this.FormShow = false;
+
+      // ກຳນົດສະຖານະຟອມເປັນ false ເພື່ອເພີ່ມຂໍ້ມູນໃໝ່
+      this.FormType = false;
+    },
+    edit_data: function edit_data(id) {
+      // ເກັບໂຕແປ id ໄວ້ເພື່ອອັບເດດ
+      this.EditID = id;
+
+      // ກຳນົດສະຖານະຟອມເປັນ true ເພື່ອອັບເດດຂໍ້ມູນເກົ່າ
+      this.FormType = true;
+
+      // ທຳການຄົ້ນຫາຂໍ້ມູນ ເມື່ອພົບເຫັນ ໃຫ້ເອົາເກັບໄວ້ໃນໂຕແປ item
+      var item = this.StoreData.find(function (i) {
+        return i.id == id;
+      });
+
+      // ນຳຂໍ້ມູນໃນ item ມາສະແດງໃສ່ ຟອມ
+      this.FormStore.name = item.name;
+      this.FormStore.amount = item.amount;
+      this.FormStore.price_buy = item.price_buy;
+      this.FormStore.price_sell = item.price_sell;
+
+      // ສະແດງຟອມ
+      this.FormShow = true;
+    },
+    del_data: function del_data(id) {
+      // ຄົ້ນຫາແລ້ວທຳການລຶບຂໍ້ມູນ
+      var index = this.StoreData.map(function (i) {
+        return i.id;
+      }).indexOf(id);
+      this.StoreData.splice(index, 1);
+    }
+  }
 });
 
 /***/ }),
@@ -20103,10 +20216,190 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"col-md-12 col-lg-12\"><div class=\"row\"><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ລາຍຮັບ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ລາຍຈ່າຍ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ກຳໄລ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ສະຕ໋ອກສິນຄ້າ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div></div><div class=\"row\"><div class=\"co-md-12\"><div class=\"card\"><h5 class=\"card-header\">Hoverable rows</h5><div class=\"table-responsive text-nowrap\"><table class=\"table table-hover\"><thead><tr><th>Project</th><th>Client</th><th>Users</th><th>Status</th><th>Actions</th></tr></thead><tbody class=\"table-border-bottom-0\"><tr><td><i class=\"fab fa-angular fa-lg text-danger me-3\"></i> <strong>Angular Project</strong></td><td>Albert Cook</td><td><ul class=\"list-unstyled users-list m-0 avatar-group d-flex align-items-center\"><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Lilian Fuller\"><img src=\"assets/img/avatars/5.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Sophia Wilkerson\"><img src=\"assets/img/avatars/6.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Christina Parker\"><img src=\"assets/img/avatars/7.png\" alt=\"Avatar\" class=\"rounded-circle\"></li></ul></td><td><span class=\"badge bg-label-primary me-1\">Active</span></td><td><div class=\"dropdown\"><button type=\"button\" class=\"btn p-0 dropdown-toggle hide-arrow\" data-bs-toggle=\"dropdown\"><i class=\"bx bx-dots-vertical-rounded\"></i></button><div class=\"dropdown-menu\"><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-edit-alt me-1\"></i> Edit</a><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-trash me-1\"></i> Delete</a></div></div></td></tr><tr><td><i class=\"fab fa-react fa-lg text-info me-3\"></i> <strong>React Project</strong></td><td>Barry Hunter</td><td><ul class=\"list-unstyled users-list m-0 avatar-group d-flex align-items-center\"><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Lilian Fuller\"><img src=\"assets/img/avatars/5.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Sophia Wilkerson\"><img src=\"assets/img/avatars/6.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Christina Parker\"><img src=\"assets/img/avatars/7.png\" alt=\"Avatar\" class=\"rounded-circle\"></li></ul></td><td><span class=\"badge bg-label-success me-1\">Completed</span></td><td><div class=\"dropdown\"><button type=\"button\" class=\"btn p-0 dropdown-toggle hide-arrow\" data-bs-toggle=\"dropdown\"><i class=\"bx bx-dots-vertical-rounded\"></i></button><div class=\"dropdown-menu\"><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-edit-alt me-1\"></i> Edit</a><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-trash me-1\"></i> Delete</a></div></div></td></tr><tr><td><i class=\"fab fa-vuejs fa-lg text-success me-3\"></i> <strong>VueJs Project</strong></td><td>Trevor Baker</td><td><ul class=\"list-unstyled users-list m-0 avatar-group d-flex align-items-center\"><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Lilian Fuller\"><img src=\"assets/img/avatars/5.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Sophia Wilkerson\"><img src=\"assets/img/avatars/6.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Christina Parker\"><img src=\"assets/img/avatars/7.png\" alt=\"Avatar\" class=\"rounded-circle\"></li></ul></td><td><span class=\"badge bg-label-info me-1\">Scheduled</span></td><td><div class=\"dropdown\"><button type=\"button\" class=\"btn p-0 dropdown-toggle hide-arrow\" data-bs-toggle=\"dropdown\"><i class=\"bx bx-dots-vertical-rounded\"></i></button><div class=\"dropdown-menu\"><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-edit-alt me-1\"></i> Edit</a><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-trash me-1\"></i> Delete</a></div></div></td></tr><tr><td><i class=\"fab fa-bootstrap fa-lg text-primary me-3\"></i> <strong>Bootstrap Project</strong></td><td>Jerry Milton</td><td><ul class=\"list-unstyled users-list m-0 avatar-group d-flex align-items-center\"><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Lilian Fuller\"><img src=\"assets/img/avatars/5.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Sophia Wilkerson\"><img src=\"assets/img/avatars/6.png\" alt=\"Avatar\" class=\"rounded-circle\"></li><li data-bs-toggle=\"tooltip\" data-popup=\"tooltip-custom\" data-bs-placement=\"top\" class=\"avatar avatar-xs pull-up\" aria-label=\"Christina Parker\"><img src=\"assets/img/avatars/7.png\" alt=\"Avatar\" class=\"rounded-circle\"></li></ul></td><td><span class=\"badge bg-label-warning me-1\">Pending</span></td><td><div class=\"dropdown\"><button type=\"button\" class=\"btn p-0 dropdown-toggle hide-arrow\" data-bs-toggle=\"dropdown\"><i class=\"bx bx-dots-vertical-rounded\"></i></button><div class=\"dropdown-menu\"><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-edit-alt me-1\"></i> Edit</a><a class=\"dropdown-item\" href=\"javascript:void(0);\"><i class=\"bx bx-trash me-1\"></i> Delete</a></div></div></td></tr></tbody></table></div></div></div></div></div>", 1);
-var _hoisted_2 = [_hoisted_1];
+var _hoisted_1 = {
+  "class": "col-md-12 col-lg-12"
+};
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"row\"><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ລາຍຮັບ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ລາຍຈ່າຍ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ກຳໄລ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div><div class=\"col-lg-3 col-md-3 col-6 mb-4\"><div class=\"card\"><div class=\"card-body pb-0\"><span class=\"d-block fw-semibold\">ສະຕ໋ອກສິນຄ້າ</span></div><div class=\"p-3 pt-2 d-flex justify-content-between\"><i class=\"menu-icon bx bx-line-chart\"></i><span>aaaa</span></div><div class=\"resize-triggers\"><div class=\"expand-trigger\"><div style=\"width:139px;height:199px;\"></div></div><div class=\"contract-trigger\"></div></div></div></div></div>", 1);
+var _hoisted_3 = {
+  "class": "row"
+};
+var _hoisted_4 = {
+  "class": "co-md-12"
+};
+var _hoisted_5 = {
+  "class": "card"
+};
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  "class": "card-header"
+}, "Hoverable rows", -1 /* HOISTED */);
+var _hoisted_7 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */);
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("hr", null, null, -1 /* HOISTED */);
+var _hoisted_9 = {
+  "class": "d-flex justify-content-end"
+};
+var _hoisted_10 = {
+  key: 0,
+  "class": "row p-2"
+};
+var _hoisted_11 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "col-md-4"
+}, " aaaa ", -1 /* HOISTED */);
+var _hoisted_12 = {
+  "class": "col-md-8"
+};
+var _hoisted_13 = {
+  "class": "mb-3"
+};
+var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "exampleFormControlInput1",
+  "class": "form-label"
+}, "ຊື່ສິນຄ້າ", -1 /* HOISTED */);
+var _hoisted_15 = {
+  "class": "mb-3"
+};
+var _hoisted_16 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "exampleFormControlInput1",
+  "class": "form-label"
+}, "ຈຳນວນ", -1 /* HOISTED */);
+var _hoisted_17 = {
+  "class": "row"
+};
+var _hoisted_18 = {
+  "class": "col-md-6"
+};
+var _hoisted_19 = {
+  "class": "mb-3"
+};
+var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "exampleFormControlInput1",
+  "class": "form-label"
+}, "ລາຄາຊື້", -1 /* HOISTED */);
+var _hoisted_21 = {
+  "class": "col-md-6"
+};
+var _hoisted_22 = {
+  "class": "mb-3"
+};
+var _hoisted_23 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("label", {
+  "for": "exampleFormControlInput1",
+  "class": "form-label"
+}, "ລາຄາຂາຍ", -1 /* HOISTED */);
+var _hoisted_24 = {
+  key: 1,
+  "class": "table-responsive text-nowrap"
+};
+var _hoisted_25 = {
+  "class": "table table-hover"
+};
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ID"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ຊື່ສິນຄ້າ"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ລາຄາຊື້"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ຈັດການ")])], -1 /* HOISTED */);
+var _hoisted_27 = {
+  "class": "table-border-bottom-0"
+};
+var _hoisted_28 = {
+  width: "50"
+};
+var _hoisted_29 = {
+  width: "200"
+};
+var _hoisted_30 = {
+  width: "150"
+};
+var _hoisted_31 = {
+  "class": "dropdown"
+};
+var _hoisted_32 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+  type: "button",
+  "class": "btn p-0 dropdown-toggle hide-arrow",
+  "data-bs-toggle": "dropdown"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "bx bx-dots-vertical-rounded"
+})], -1 /* HOISTED */);
+var _hoisted_33 = {
+  "class": "dropdown-menu"
+};
+var _hoisted_34 = ["onClick"];
+var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "bx bx-edit-alt me-1"
+}, null, -1 /* HOISTED */);
+var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ແກ້ໄຂ");
+var _hoisted_37 = [_hoisted_35, _hoisted_36];
+var _hoisted_38 = ["onClick"];
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "bx bx-trash me-1"
+}, null, -1 /* HOISTED */);
+var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" ລຶບ");
+var _hoisted_41 = [_hoisted_39, _hoisted_40];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_2);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.FormStore) + " | " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.FormType) + " ", 1 /* TEXT */), _hoisted_7, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)($data.StoreData) + " ", 1 /* TEXT */), _hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_9, [!$data.FormShow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 0,
+    type: "button",
+    "class": "btn btn-info me-2",
+    onClick: _cache[0] || (_cache[0] = function ($event) {
+      return $options.add_store();
+    })
+  }, "ເພີ່ມ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.FormShow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 1,
+    type: "button",
+    "class": "btn btn-success me-2",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.save_data();
+    })
+  }, "ບັນທຶກ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), $data.FormShow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("button", {
+    key: 2,
+    type: "button",
+    "class": "btn btn-danger me-2",
+    onClick: _cache[2] || (_cache[2] = function ($event) {
+      return $options.close_form();
+    })
+  }, "ຍົກເລີກ")) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)]), $data.FormShow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_10, [_hoisted_11, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_12, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_13, [_hoisted_14, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    id: "exampleFormControlInput1",
+    "onUpdate:modelValue": _cache[3] || (_cache[3] = function ($event) {
+      return $data.FormStore.name = $event;
+    }),
+    placeholder: "ປ້ອນຊື່ສິນຄ້າ..."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.FormStore.name]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_15, [_hoisted_16, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "number",
+    "class": "form-control",
+    id: "exampleFormControlInput1",
+    "onUpdate:modelValue": _cache[4] || (_cache[4] = function ($event) {
+      return $data.FormStore.amount = $event;
+    }),
+    placeholder: "ປ້ອນຈຳນວນ..."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.FormStore.amount]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_17, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_18, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_19, [_hoisted_20, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    id: "exampleFormControlInput1",
+    "onUpdate:modelValue": _cache[5] || (_cache[5] = function ($event) {
+      return $data.FormStore.price_buy = $event;
+    }),
+    placeholder: "ປ້ອນລາຄາຊື້..."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.FormStore.price_buy]])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_22, [_hoisted_23, (0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "text",
+    "class": "form-control",
+    id: "exampleFormControlInput1",
+    "onUpdate:modelValue": _cache[6] || (_cache[6] = function ($event) {
+      return $data.FormStore.price_sell = $event;
+    }),
+    placeholder: "ປ້ອນລາຄາຂາຍ..."
+  }, null, 512 /* NEED_PATCH */), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.FormStore.price_sell]])])])])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true), !$data.FormShow ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_27, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.StoreData, function (list) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: list.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.name), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.price_buy), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_31, [_hoisted_32, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "dropdown-item",
+      href: "javascript:void(0);",
+      onClick: function onClick($event) {
+        return $options.edit_data(list.id);
+      }
+    }, _hoisted_37, 8 /* PROPS */, _hoisted_34), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+      "class": "dropdown-item",
+      href: "javascript:void(0);",
+      onClick: function onClick($event) {
+        return $options.del_data(list.id);
+      }
+    }, _hoisted_41, 8 /* PROPS */, _hoisted_38)])])])]);
+  }), 128 /* KEYED_FRAGMENT */))])])])) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])]);
 }
 
 /***/ }),
