@@ -64,10 +64,10 @@
             <div class="card">
   <h5 class="card-header">Hoverable rows</h5>
 
-  {{ FormStore }} | {{ FormType }}
+  <!-- {{ FormStore }} | {{ FormType }}
   <hr>
   {{ StoreData }}
-  <hr>
+  <hr> -->
   <div class=" d-flex justify-content-end "> 
     <button type="button" class="btn btn-info me-2" v-if="!FormShow" @click="add_store()">ເພີ່ມ</button>
     <button type="button" class="btn btn-success me-2" v-if="FormShow" @click="save_data()" >ບັນທຶກ</button>
@@ -150,7 +150,7 @@ export default {
             EditID:'',
             FormShow: false,
             FormType: false,
-            StoreData:[ { "id": 326, "name": "ຄັນຮົ່ມ", "amount": 50, "price_buy": "15000", "price_sell": "30000" }, { "id": 978, "name": "ເກີບຜ້າໃບ", "amount": 20, "price_buy": "20000", "price_sell": "50000" }, { "id": 357, "name": "ໂສ້ງຜູ້ຊາຍ", "amount": 20, "price_buy": "40000", "price_sell": "80000" }, { "id": 128, "name": "ສະບູ່ລ້າງໜ້າ", "amount": 40, "price_buy": "30000", "price_sell": "40000" } ],
+            StoreData:[],
             FormStore:{
               name:'',
               amount:'',
@@ -177,21 +177,52 @@ export default {
         if(this.FormType){ // ຖ້າຫາກວ່າໂຕແປ FormType ມີຄ່າເປັນ True
 
           // ອັບເດດຂໍ້ມູນ
-          this.StoreData.find((i)=>i.id == this.EditID).name = this.FormStore.name;
-          this.StoreData.find((i)=>i.id == this.EditID).amount = this.FormStore.amount;
-          this.StoreData.find((i)=>i.id == this.EditID).price_buy = this.FormStore.price_buy;
-          this.StoreData.find((i)=>i.id == this.EditID).price_sell = this.FormStore.price_sell;
+          // this.StoreData.find((i)=>i.id == this.EditID).name = this.FormStore.name;
+          // this.StoreData.find((i)=>i.id == this.EditID).amount = this.FormStore.amount;
+          // this.StoreData.find((i)=>i.id == this.EditID).price_buy = this.FormStore.price_buy;
+          // this.StoreData.find((i)=>i.id == this.EditID).price_sell = this.FormStore.price_sell;
+
+
+          // ທຳການ ຍິງຂໍ້ມູນ ໄປທີ່ back-end ເພື່ອທຳການ ອັບເດດຂໍ້ມູນ ລົງຖານຂໍ້ມູນ
+            let formDataStore = new FormData();
+            formDataStore.append("name", this.FormStore.name);
+            formDataStore.append("amount", this.FormStore.amount);
+            formDataStore.append("price_buy", this.FormStore.price_buy);
+            formDataStore.append("price_sell", this.FormStore.price_sell);
+
+           // console.log(formDataStore);
+
+            this.$axios.post(`/api/store/update/${this.EditID}`, formDataStore).then((response) => {
+                console.log('update data success!');
+                this.getDataStore();
+            }).catch((error)=>{
+              console.log(error);
+            });
 
 
         } else { // ຖ້າຫາກວ່າໂຕແປ FormType ບໍ່ມີຄ່າເປັນ True
 
           // ເພີ່ມຂໍ້ມູນໃໝ່
-          this.StoreData.push({
-            id: Math.floor(Math.random()*1000),
-            name: this.FormStore.name,
-            amount: this.FormStore.amount,
-            price_buy: this.FormStore.price_buy,
-            price_sell: this.FormStore.price_sell
+          // this.StoreData.push({
+          //   id: Math.floor(Math.random()*1000),
+          //   name: this.FormStore.name,
+          //   amount: this.FormStore.amount,
+          //   price_buy: this.FormStore.price_buy,
+          //   price_sell: this.FormStore.price_sell
+          // });
+
+          // ທຳການ ຍິງຂໍ້ມູນ ໄປທີ່ back-end ເພື່ອທຳການ ບັນທຶກຂໍ້ມູນ ລົງຖານຂໍ້ມູນ
+          let formDataStore = new FormData();
+          formDataStore.append("name", this.FormStore.name);
+          formDataStore.append("amount", this.FormStore.amount);
+          formDataStore.append("price_buy", this.FormStore.price_buy);
+          formDataStore.append("price_sell", this.FormStore.price_sell);
+
+          this.$axios.post("/api/store/add", formDataStore).then((response) => {
+              //console.log('Sent data success!');
+              this.getDataStore();
+          }).catch((error)=>{
+            console.log(error);
           });
 
         }
@@ -223,13 +254,25 @@ export default {
         this.FormType = true;
 
         // ທຳການຄົ້ນຫາຂໍ້ມູນ ເມື່ອພົບເຫັນ ໃຫ້ເອົາເກັບໄວ້ໃນໂຕແປ item
-        let item = this.StoreData.find((i)=>i.id == id);
+        //let item = this.StoreData.find((i)=>i.id == id);
+
+          this.$axios.get(`api/store/edit/${id}`).then((response)=>{
+
+            // ນຳຂໍ້ມູນໃນ item ມາສະແດງໃສ່ ຟອມ
+            this.FormStore.name = response.data.name;
+            this.FormStore.amount = response.data.amount;
+            this.FormStore.price_buy = response.data.price_buy;
+            this.FormStore.price_sell = response.data.price_sell;
+
+          }).catch((error)=>{
+            console.log(error);
+          });      
 
         // ນຳຂໍ້ມູນໃນ item ມາສະແດງໃສ່ ຟອມ
-        this.FormStore.name = item.name;
-        this.FormStore.amount = item.amount;
-        this.FormStore.price_buy = item.price_buy;
-        this.FormStore.price_sell = item.price_sell;
+        // this.FormStore.name = item.name;
+        // this.FormStore.amount = item.amount;
+        // this.FormStore.price_buy = item.price_buy;
+        // this.FormStore.price_sell = item.price_sell;
 
         // ສະແດງຟອມ
         this.FormShow = true;
@@ -239,10 +282,60 @@ export default {
       del_data(id){
 
         // ຄົ້ນຫາແລ້ວທຳການລຶບຂໍ້ມູນ
-        let index = this.StoreData.map((i)=>i.id).indexOf(id);
-        this.StoreData.splice(index,1);
-      }
+        // let index = this.StoreData.map((i)=>i.id).indexOf(id);
+        // this.StoreData.splice(index,1);
+
+        this.$swal({
+          title: 'ທ່ານແນ່ໃຈບໍ່?',
+          text: "ທີ່ຈະລຶບຂໍ້ມູນນີ້!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#3085d6',
+          cancelButtonColor: '#d33',
+          confirmButtonText: 'ຕົກລົງ!',
+          cancelButtonText:'ຍົກເລີກ'
+        }).then((result) => {
+          if (result.isConfirmed) {
+
+            this.$axios.delete(`api/store/delete/${id}`).then((response)=>{
+
+                  this.$swal(
+                  'ການລຶບຂໍ້ມູນ!',
+                  response.data.message,
+                  'success'
+                );
+              // ອັບເດດລາຍການຂໍ້ມູນ
+                this.getDataStore();
+            }).catch((error)=>{
+              console.log(error)
+            });
+
+            
+          }
+        });
+
+          
+
+      },
+      getDataStore(){
+
+        this.$axios.get('api/store').then((response)=>{
+
+          this.StoreData = response.data;
+
+        }).catch((error)=>{
+          console.log(error);
+        });
+
+      },
+      showAlert() {
+        // Use sweetalert2
+        this.$swal('Hello Vue world!!!');
+      },
     },
+    created(){
+      this.getDataStore();
+    }
 };
 </script>
 

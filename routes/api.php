@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\StoreController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+//     return $request->user();
+// });
+
+
+
+Route::group(['prefix' => 'store'], function(){
+    Route::post('add',[StoreController::class,'add']);
+    Route::get('/',[StoreController::class,'index']);
+    Route::get('edit/{id}',[StoreController::class,'edit']);
+    Route::post('update/{id}',[StoreController::class,'update']);
+    Route::delete('delete/{id}',[StoreController::class,'delete']);
 });
