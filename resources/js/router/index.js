@@ -1,5 +1,7 @@
 import { createWebHistory, createRouter } from "vue-router"
 
+import Login from "../Pages/Login.vue"
+import Register from "../Pages/Register.vue"
 import Store from "../Pages/Store.vue"
 import Pos from "../Pages/Pos.vue"
 import Transection from "../Pages/Transection.vue"
@@ -7,8 +9,18 @@ import Report from "../Pages/Report.vue"
 
 export const routes = [
     {
-        name: "Store Page",
+        name: "Login Page",
         path: "/",
+        component: Login
+    },
+    {
+        name: "Register Page",
+        path: "/register",
+        component: Register
+    },
+    {
+        name: "Store Page",
+        path: "/store",
         component: Store
     },
     {

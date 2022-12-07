@@ -8,7 +8,7 @@
 
 <!-- Menu -->
 
-<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme" v-if="isLoggin">
 
   
   <div class="app-brand demo ">
@@ -113,7 +113,7 @@
 
 
 
-<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+<nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar" v-if="isLoggin">
   
 
   
@@ -583,7 +583,7 @@
           
         
 <!-- Footer -->
-<footer class="content-footer footer bg-footer-theme">
+<footer class="content-footer footer bg-footer-theme" v-if="isLoggin">
   <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
     <div class="mb-2 mb-md-0">
       © 
@@ -634,7 +634,7 @@ export default {
 
     data() {
         return {
-            
+            isLoggin:false
         };
     },
 
@@ -651,6 +651,16 @@ export default {
     whatch:{
         
     },
+    created(){
+      console.log(window.Laravel.isLoggin);
+
+      if(window.Laravel.isLoggin){
+        this.isLoggin = true
+      }
+      else {
+        this.isLoggin = false
+      }
+    }
 };
 </script>
 
