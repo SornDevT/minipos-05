@@ -64,7 +64,7 @@
   <ul class="menu-inner py-1">
     <!-- Dashboards -->
     <li class="menu-item">
-      <router-link to="/" class="menu-link ">
+      <router-link to="/store" class="menu-link ">
         <i class='menu-icon bx bxs-store tf-icons'></i>
         <div data-i18n="Dashboards">ສະຕ໋ອກສິນຄ້າ</div>
       </router-link>
@@ -539,7 +539,7 @@
                 <div class="dropdown-divider"></div>
               </li>
               <li>
-                <a class="dropdown-item" href="auth-login-cover.html" target="_blank">
+                <a class="dropdown-item" href="javascript:void(0)" @click="logout()">
                   <i class="bx bx-power-off me-2"></i>
                   <span class="align-middle">Log Out</span>
                 </a>
@@ -643,6 +643,15 @@ export default {
     },
 
     methods: {
+      logout(){
+            this.$axios.post("/api/logout").then((response)=>{
+                if(response.data.success){
+                  window.location.href = "/login"
+                }
+                }).catch((error)=>{
+                  console.log(error)
+                });
+      }
         
     },
     computed(){

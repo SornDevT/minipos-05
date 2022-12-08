@@ -108,6 +108,16 @@ export default {
                         email: this.email,
                         password: this.password
                     }).then((response)=>{
+
+                        if(response.data.success){
+                            this.$router.push('login');
+                        } else {
+                          this.$swal(
+                            'ຜິດຜາດ!',
+                            response.data.message,
+                            'error'
+                          );
+                        }
             
                         }).catch((error)=>{
                             console.log(error)
@@ -125,6 +135,13 @@ export default {
             }
         }
     },
+    beforeRouteEnter(to, from, next){
+      if(!window.Laravel.isLoggin){
+        next();
+      }else{
+        window.location.href = "/store"
+      }
+    }
 };
 </script>
 

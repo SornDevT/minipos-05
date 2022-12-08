@@ -52,7 +52,13 @@
           <h4 class="mb-2">ສະບາຍດີ! 👋</h4>
           <p class="mb-4">ກະລຖນາເຂົ້າສູ່ລະບົບ</p>
 
-        
+          <div class="alert alert-danger d-flex" role="alert" v-if="show_error">
+          <span class="badge badge-center rounded-pill bg-danger border-label-danger p-3 me-2"><i class='bx bx-info-circle fs-6'></i></span>
+          <div class="d-flex flex-column ps-1">
+            <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">ຜິດຜາດ!!</h6>
+            <span>{{text_error}}</span>
+          </div>
+        </div>
             <div class="mb-3 fv-plugins-icon-container">
               <label for="email" class="form-label">ອີເມວລ໌</label>
               <input type="text" class="form-control"  placeholder="ປ້ນອີເມວລ໌..."  v-model="email">
@@ -63,7 +69,7 @@
                 
               </div>
               <div class="input-group input-group-merge has-validation">
-                <input type="password"  class="form-control"  placeholder="ປ້ອນລະຫັດ..." aria-describedby="password" v-model="password">
+                <input type="password"  class="form-control"  placeholder="ປ້ອນລະຫັດ..." aria-describedby="password" v-model="password" @keyup.enter="login()" >
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div><div class="fv-plugins-message-container invalid-feedback"></div>
             </div>
@@ -73,9 +79,9 @@
             </div>
             <p class=" d-flex justify-content-end ">
             <span class="me-2">ບໍ່ມີ ບັນຊີ?</span>
-            <a href="auth-register-basic.html">
+            <router-link to="/register" >
               <span> ລົງທະບຽນ</span>
-            </a>
+            </router-link>
           </p>
 
         </div>
@@ -108,8 +114,33 @@ export default {
         login(){
            // console.log('email:' + this.email+' | Password: '+ this.password);
 
+           this.$axios.post("/api/login",{
+                        email: this.email,
+                        password: this.password
+                    }).then((response)=>{
+
+                        if(response.data.success){
+                          this.show_error = false;
+                            window.location.href = "/store";
+                        } else {
+                          console.log(response.data.message);
+                         this.show_error = true;
+                         this.text_error = response.data.message;
+                        }
+            
+                    }).catch((error)=>{
+                        console.log(error)
+                });
+
         }
     },
+    beforeRouteEnter(to, from, next){
+      if(!window.Laravel.isLoggin){
+        next();
+      }else{
+        window.location.href = "/store"
+      }
+    }
 };
 </script>
 

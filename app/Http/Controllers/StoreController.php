@@ -11,8 +11,16 @@ class StoreController extends Controller
 
     public function index(){
 
-        $store = Store::orderBy('id','asc')->get();
-        return $store;
+        //$store = Store::orderBy('id','asc')->get();
+        //return $store;
+
+        $search = \Request::get('search');
+        $store = Store::orderBy('id','asc')
+        ->where('name','LIKE',"%{$search}%")
+        ->paginate(5)
+        ->toArray();
+
+         return array_reverse($store);
 
     }
 
