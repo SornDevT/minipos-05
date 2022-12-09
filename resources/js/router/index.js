@@ -9,7 +9,7 @@ import Report from "../Pages/Report.vue"
 
 export const routes = [
     {
-        name: "Login Page",
+        name: "Login Page1",
         path: "/",
         component: Login
     },

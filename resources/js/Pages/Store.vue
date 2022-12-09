@@ -75,7 +75,8 @@
   </div>
   <div class="row p-2" v-if="FormShow">
     <div class="col-md-4">
-      aaaa
+      <img :src="image_preview" class="mb-2" style="width:100%" alt="">
+      <input type="file" class="form-control" @change="onSeclected">
     </div>
     <div class="col-md-8">
       <div class="mb-3">
@@ -158,6 +159,8 @@ export default {
 
     data() {
         return {
+            image_preview: window.location.origin + '/assets/img/upload_img.png',
+            image_product:'',
             search:'',
             EditID:'',
             FormShow: false,
@@ -188,12 +191,31 @@ export default {
     },
 
     methods: {
+      onSeclected(event){
+
+       // console.log(event.target.files[0]);
+        this.image_product = event.target.files[0];
+        let reader = new FileReader();
+        reader.readAsDataURL(this.image_product);
+        reader.addEventListener("load", function(){
+          this.image_preview = reader.result;
+        }.bind(this), false);
+
+      },
       formatPrice(value) {
 			let val = (value / 1).toFixed(0).replace(",", ".");
 			return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 		},
       add_store(){
         this.FormShow = true;
+
+        // ເຄີຍຂໍ້ມູນໃນຟອມ
+        this.FormStore.name = '';
+        this.FormStore.amount = '';
+        this.FormStore.price_buy = '';
+        this.FormStore.price_sell = '';
+        this.image_preview = window.location.origin + '/assets/img/upload_img.png';
+
       },
       close_form(){
         this.FormShow = false;
@@ -215,11 +237,19 @@ export default {
             formDataStore.append("amount", this.FormStore.amount);
             formDataStore.append("price_buy", this.FormStore.price_buy);
             formDataStore.append("price_sell", this.FormStore.price_sell);
+            formDataStore.append("file", this.image_product);
 
            // console.log(formDataStore);
            this.$axios.get("/sanctum/csrf-cookie").then((response)=>{
-            this.$axios.post(`/api/store/update/${this.EditID}`, formDataStore).then((response) => {
+            this.$axios.post(`/api/store/update/${this.EditID}`, formDataStore,{headers:{"content-typr":"multipart/form-data"}} ).then((response) => {
                 console.log('update data success!');
+                if(response.data.success){
+                      this.$swal(
+                      response.data.message,
+                      response.data.message,
+                      'success'
+                    );
+                }
                 this.getDataStore();
             }).catch((error)=>{
               console.log(error);
@@ -244,10 +274,18 @@ export default {
           formDataStore.append("amount", this.FormStore.amount);
           formDataStore.append("price_buy", this.FormStore.price_buy);
           formDataStore.append("price_sell", this.FormStore.price_sell);
+          formDataStore.append("file", this.image_product);
 
           this.$axios.get("/sanctum/csrf-cookie").then((response)=>{
-            this.$axios.post("/api/store/add", formDataStore).then((response) => {
+            this.$axios.post("/api/store/add", formDataStore ,{headers:{"content-typr":"multipart/form-data"}}).then((response) => {
                 //console.log('Sent data success!');
+                if(response.data.success){
+                      this.$swal(
+                      response.data.message,
+                      response.data.message,
+                      'success'
+                    );
+                }
                 this.getDataStore();
             }).catch((error)=>{
               console.log(error);
@@ -294,6 +332,15 @@ export default {
             this.FormStore.amount = response.data.amount;
             this.FormStore.price_buy = response.data.price_buy;
             this.FormStore.price_sell = response.data.price_sell;
+
+            // ກຳນົດຄ່າໃຫ້ຮູບພາບ
+            this.image_product = response.data.image;
+
+            if(response.data.image){
+              this.image_preview = window.location.origin + '/assets/img/' + response.data.image;
+            } else {
+              this.image_preview = window.location.origin + '/assets/img/upload_img.png';
+            }
 
           }).catch((error)=>{
             console.log(error);
