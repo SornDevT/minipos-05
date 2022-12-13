@@ -87,8 +87,8 @@
                     ></i>
                     {{ list.order_amount }}
                     <i
-                      class="bx bxs-plus-circle poiter text-info"
-                      @click="Add_one(list.id)"
+                      class="bx bxs-plus-circle poiter text-info" 
+                      @click="add_product(list.id)"
                     ></i>
                     |
                     <i
@@ -308,7 +308,36 @@ export default {
   },
   methods: {
     Confirm_Play(){
-      console.log('Confirm Pay!!')
+     // console.log('Confirm Pay!!');
+
+      this.$axios.get("/sanctum/csrf-cookie").then((response)=>{
+            this.$axios.post(`/api/transection/add`, {
+              acc_type:'income',
+              listorder: this.ListOrder
+            } ).then((response) => {
+
+              // ປິດ ບ໋ອກຊຳລະເງິນ
+              $("#modalCenter").modal("hide");
+              // clear ລາຍການສັ່ງຊື້
+              this.ListOrder = [];
+              // clear ເງິນທີ່ຮັບນຳລູກຄ້າ
+              this.CashAmount = "";
+              // ອັບເດດລາຍການ ສັ່ງຊື້
+              this.getDataStore();
+
+                if(response.data.success){
+                      this.$swal(
+                      response.data.message,
+                      response.data.message,
+                      'success'
+                    );
+                }
+           
+            }).catch((error)=>{
+              console.log(error);
+            });
+          });
+
     },
     AddNum(num){
         //console.log(num);
@@ -321,9 +350,9 @@ export default {
     BT_Play() {
       $("#modalCenter").modal("show");
     },
-    Add_one(id) {
-      this.ListOrder.find((i) => i.id == id).order_amount++;
-    },
+    // Add_one(id) {
+    //   this.ListOrder.find((i) => i.id == id).order_amount++;
+    // },
     Remove_one(id) {
       this.ListOrder.find((i) => i.id == id).order_amount--;
 
@@ -341,17 +370,58 @@ export default {
       this.ListOrder = [];
     },
     add_product(id) {
+
+     // console.log('Add one!')
       let item = this.StoreData.data.find((i) => i.id == id);
 
-      if (this.ListOrder.find((i) => i.id == id)) {
-        this.ListOrder.find((i) => i.id == id).order_amount++;
+      //console.log(item)
+
+      if(item.amount>0){
+        //console.log('Ok')
+
+        let list_order = this.ListOrder.find((i) => i.id == id);
+
+        if(list_order){ // ກວດຊອບວ່າ ລາຍການສັ່ງ ລະຫັດສິນຄ້ານີ້ ມີຢູ່ລາຍການສັ່ງຊື້ຫຼືບໍ່
+          
+          let old_order_amount = list_order.order_amount;
+
+          console.log('ຈຳນວນໃນສະຕ໋ອກ: '+item.amount)
+
+          if(item.amount - old_order_amount > 0){ // ກວດຊອບ ລາຍການສິນຄ້າ ກັບ ລາຍການສັ່ງຊື້
+
+                  // ກວດຊອບ ເພີ່ມລາຍການສິນຄ້າ
+                if (this.ListOrder.find((i) => i.id == id)) {
+                  this.ListOrder.find((i) => i.id == id).order_amount++;
+                } else {
+                  this.ListOrder.push({
+                    id: item.id,
+                    name: item.name,
+                    price_sell: item.price_sell,
+                    order_amount: 1,
+                  });
+                }
+
+          } else {
+            this.$swal.fire("ຜິດຜາດ!","ສິນຄ້າໝົດແລ້ວ!","error");
+          }
+
+        } else {
+
+          // ກວດຊອບ ເພີ່ມລາຍການສິນຄ້າ
+          if (this.ListOrder.find((i) => i.id == id)) {
+                  this.ListOrder.find((i) => i.id == id).order_amount++;
+                } else {
+                  this.ListOrder.push({
+                    id: item.id,
+                    name: item.name,
+                    price_sell: item.price_sell,
+                    order_amount: 1,
+                  });
+                }
+
+        }
       } else {
-        this.ListOrder.push({
-          id: item.id,
-          name: item.name,
-          price_sell: item.price_sell,
-          order_amount: 1,
-        });
+        this.$swal.fire("ຜິດຜາດ!","ສິນຄ້າໝົດແລ້ວ!","error");
       }
     },
     formatPrice(value) {

@@ -19882,7 +19882,29 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     Confirm_Play: function Confirm_Play() {
-      console.log('Confirm Pay!!');
+      var _this = this;
+      // console.log('Confirm Pay!!');
+
+      this.$axios.get("/sanctum/csrf-cookie").then(function (response) {
+        _this.$axios.post("/api/transection/add", {
+          acc_type: 'income',
+          listorder: _this.ListOrder
+        }).then(function (response) {
+          // ປິດ ບ໋ອກຊຳລະເງິນ
+          $("#modalCenter").modal("hide");
+          // clear ລາຍການສັ່ງຊື້
+          _this.ListOrder = [];
+          // clear ເງິນທີ່ຮັບນຳລູກຄ້າ
+          _this.CashAmount = "";
+          // ອັບເດດລາຍການ ສັ່ງຊື້
+          _this.getDataStore();
+          if (response.data.success) {
+            _this.$swal(response.data.message, response.data.message, 'success');
+          }
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      });
     },
     AddNum: function AddNum(num) {
       //console.log(num);
@@ -19895,11 +19917,9 @@ __webpack_require__.r(__webpack_exports__);
     BT_Play: function BT_Play() {
       $("#modalCenter").modal("show");
     },
-    Add_one: function Add_one(id) {
-      this.ListOrder.find(function (i) {
-        return i.id == id;
-      }).order_amount++;
-    },
+    // Add_one(id) {
+    //   this.ListOrder.find((i) => i.id == id).order_amount++;
+    // },
     Remove_one: function Remove_one(id) {
       this.ListOrder.find(function (i) {
         return i.id == id;
@@ -19923,22 +19943,64 @@ __webpack_require__.r(__webpack_exports__);
       this.ListOrder = [];
     },
     add_product: function add_product(id) {
+      // console.log('Add one!')
       var item = this.StoreData.data.find(function (i) {
         return i.id == id;
       });
-      if (this.ListOrder.find(function (i) {
-        return i.id == id;
-      })) {
-        this.ListOrder.find(function (i) {
+
+      //console.log(item)
+
+      if (item.amount > 0) {
+        //console.log('Ok')
+
+        var list_order = this.ListOrder.find(function (i) {
           return i.id == id;
-        }).order_amount++;
-      } else {
-        this.ListOrder.push({
-          id: item.id,
-          name: item.name,
-          price_sell: item.price_sell,
-          order_amount: 1
         });
+        if (list_order) {
+          // ກວດຊອບວ່າ ລາຍການສັ່ງ ລະຫັດສິນຄ້ານີ້ ມີຢູ່ລາຍການສັ່ງຊື້ຫຼືບໍ່
+
+          var old_order_amount = list_order.order_amount;
+          console.log('ຈຳນວນໃນສະຕ໋ອກ: ' + item.amount);
+          if (item.amount - old_order_amount > 0) {
+            // ກວດຊອບ ລາຍການສິນຄ້າ ກັບ ລາຍການສັ່ງຊື້
+
+            // ກວດຊອບ ເພີ່ມລາຍການສິນຄ້າ
+            if (this.ListOrder.find(function (i) {
+              return i.id == id;
+            })) {
+              this.ListOrder.find(function (i) {
+                return i.id == id;
+              }).order_amount++;
+            } else {
+              this.ListOrder.push({
+                id: item.id,
+                name: item.name,
+                price_sell: item.price_sell,
+                order_amount: 1
+              });
+            }
+          } else {
+            this.$swal.fire("ຜິດຜາດ!", "ສິນຄ້າໝົດແລ້ວ!", "error");
+          }
+        } else {
+          // ກວດຊອບ ເພີ່ມລາຍການສິນຄ້າ
+          if (this.ListOrder.find(function (i) {
+            return i.id == id;
+          })) {
+            this.ListOrder.find(function (i) {
+              return i.id == id;
+            }).order_amount++;
+          } else {
+            this.ListOrder.push({
+              id: item.id,
+              name: item.name,
+              price_sell: item.price_sell,
+              order_amount: 1
+            });
+          }
+        }
+      } else {
+        this.$swal.fire("ຜິດຜາດ!", "ສິນຄ້າໝົດແລ້ວ!", "error");
       }
     },
     formatPrice: function formatPrice(value) {
@@ -19946,10 +20008,10 @@ __webpack_require__.r(__webpack_exports__);
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     },
     getDataStore: function getDataStore(page) {
-      var _this = this;
+      var _this2 = this;
       this.$axios.get("/sanctum/csrf-cookie").then(function (response) {
-        _this.$axios.get("api/store?page=".concat(page, "&search=").concat(_this.search)).then(function (response) {
-          _this.StoreData = response.data;
+        _this2.$axios.get("api/store?page=".concat(page, "&search=").concat(_this2.search)).then(function (response) {
+          _this2.StoreData = response.data;
         })["catch"](function (error) {
           console.log(error);
         });
@@ -20188,6 +20250,7 @@ __webpack_require__.r(__webpack_exports__);
         _formDataStore.append("price_buy", this.FormStore.price_buy);
         _formDataStore.append("price_sell", this.FormStore.price_sell);
         _formDataStore.append("file", this.image_product);
+        _formDataStore.append("acc_type", "expense");
         this.$axios.get("/sanctum/csrf-cookie").then(function (response) {
           _this.$axios.post("/api/store/add", _formDataStore, {
             headers: {
@@ -20335,10 +20398,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Minipos5Transection',
   data: function data() {
-    return {};
+    return {
+      TranData: []
+    };
   },
   mounted: function mounted() {},
-  methods: {},
+  methods: {
+    GetTran: function GetTran(page) {
+      var _this = this;
+      this.$axios.get("/sanctum/csrf-cookie").then(function (response) {
+        _this.$axios.get("api/transection?page=".concat(page)).then(function (response) {
+          _this.TranData = response.data;
+        })["catch"](function (error) {
+          console.log(error);
+        });
+      });
+    }
+  },
+  created: function created() {
+    this.GetTran();
+  },
   beforeRouteEnter: function beforeRouteEnter(to, from, next) {
     if (window.Laravel.isLoggin) {
       next();
@@ -21154,7 +21233,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, null, 8 /* PROPS */, _hoisted_24), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" " + (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.order_amount) + " ", 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bx bxs-plus-circle poiter text-info",
       onClick: function onClick($event) {
-        return $options.Add_one(list.id);
+        return $options.add_product(list.id);
       }
     }, null, 8 /* PROPS */, _hoisted_25), _hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
       "class": "bx bxs-x-circle poiter text-danger",
@@ -21723,10 +21802,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h1", null, "Transection Page", -1 /* HOISTED */);
-var _hoisted_2 = [_hoisted_1];
+var _hoisted_1 = {
+  "class": "col-md-12 col-lg-12"
+};
+var _hoisted_2 = {
+  "class": "row"
+};
+var _hoisted_3 = {
+  "class": "co-md-12"
+};
+var _hoisted_4 = {
+  "class": "card"
+};
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h5", {
+  "class": "card-header"
+}, "ລາຍການທຸລະກຳ", -1 /* HOISTED */);
+var _hoisted_6 = {
+  "class": "table-responsive text-nowrap mt-2"
+};
+var _hoisted_7 = {
+  "class": "table table-hover border"
+};
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("thead", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tr", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ວັນທີ່"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ເລກທີ່ທຸລະກຳ"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ປະເພດທຸລະກຳ"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ລາຍລະອຽດ"), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", null, "ມູນຄ່າ")])], -1 /* HOISTED */);
+var _hoisted_9 = {
+  "class": "table-border-bottom-0"
+};
+var _hoisted_10 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "p-2"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" <pagination :pagination=\"StoreData\" :offset=\"4\" @paginate=\"getDataStore($event)\" /> ")], -1 /* HOISTED */);
+
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, _hoisted_2);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("div", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_2, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_7, [_hoisted_8, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", _hoisted_9, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.TranData.data, function (list) {
+    return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
+      key: list.id
+    }, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.created_at), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.tran_id), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.tran_type), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.tran_detail), 1 /* TEXT */), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(list.price), 1 /* TEXT */)]);
+  }), 128 /* KEYED_FRAGMENT */))])]), _hoisted_10])])])])])]);
 }
 
 /***/ }),
