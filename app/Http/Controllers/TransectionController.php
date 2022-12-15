@@ -10,13 +10,46 @@ class TransectionController extends Controller
 {
     //
 
-    public function index(){
+    public function index(Request $request){
 
-        $trans = Transection::orderBy("created_at","desc")
-        ->paginate(10)
-        ->toArray();
+        $month_type = $request->month_type;
+        $date = $request->dmy;
 
-        return array_reverse($trans);
+        if($date==''){
+
+            $trans = Transection::orderBy("created_at","desc")
+            ->paginate(10)
+            ->toArray();
+            return array_reverse($trans);
+
+        } else {
+
+            $m = explode("-",$date)[1];
+            $y = explode("-",$date)[0];
+
+            if($month_type=="m"){
+
+                $trans = Transection::orderBy("created_at","desc")
+                ->whereYear("created_at","=",$y)
+                ->whereMonth("created_at","=",$m)
+                ->paginate(10)
+                ->toArray();
+                return array_reverse($trans);
+
+
+            } else if($month_type=="y"){
+
+                $trans = Transection::orderBy("created_at","desc")
+                ->whereYear("created_at","=",$y)
+                ->paginate(10)
+                ->toArray();
+                return array_reverse($trans);
+                
+
+            }
+        }
+
+        
     }
 
     public function add(Request $request){

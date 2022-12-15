@@ -8,8 +8,21 @@
             <div class="card">
   <h5 class="card-header">ລາຍການທຸລະກຳ</h5>
 
-  
-  <div class="table-responsive text-nowrap mt-2" >
+            <div class=" d-flex justify-content-end p-2">
+              
+              <div class="btn-group me-2" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary" @click="month_type = 'm'"> <i class='bx bx-chevron-right' v-if="month_type == 'm'"></i> ເດືອນ</button>
+                <button type="button" class="btn btn-secondary" @click="month_type = 'y'"> <i class='bx bx-chevron-right' v-if="month_type == 'y'"></i> ປີ </button>
+              </div>
+
+              <input type="date" class=" form-control me-2" style="width:150px" v-model="dmy">
+
+              <button type="button" class="btn rounded-pill btn-success" @click="GetTran()" >ສະແດງການເຄື່ອນໄຫວ</button>
+            </div>
+
+            
+
+  <div class="table-responsive text-nowrap mt-2 p-2" >
 
     <table class="table table-hover border">
       <thead>
@@ -18,23 +31,23 @@
           <th>ເລກທີ່ທຸລະກຳ</th>
           <th >ປະເພດທຸລະກຳ</th>
           <th>ລາຍລະອຽດ</th>
-          <th>ມູນຄ່າ</th>
+          <th class="text-center">ມູນຄ່າ</th>
         </tr>
       </thead>
       <tbody class="table-border-bottom-0">
         <tr v-for="list in TranData.data" :key="list.id">
-            <td>{{list.created_at}}</td>
+            <td> {{date(list.created_at)}} </td>
             <td>{{list.tran_id}}</td>
             <td>{{list.tran_type}}</td>
             <td>{{list.tran_detail}}</td>
-            <td>{{list.price}}</td>
+            <td class="text-end">{{formatPrice(list.price)}}</td>
         </tr>
        
    
       </tbody>
     </table>
     <div class="p-2">
-       <!-- <pagination :pagination="StoreData" :offset="4" @paginate="getDataStore($event)" /> -->
+       <pagination :pagination="TranData" :offset="4" @paginate="GetTran($event)" /> 
     </div>
    
 
@@ -47,13 +60,21 @@
 </template>
 
 <script>
+
+  import moment from "moment";
+
 export default {
     name: 'Minipos5Transection',
 
     data() {
         return {
             TranData:[],
+            month_type:'y',
+            dmy:''
         };
+    },
+    components:{
+      moment
     },
 
     mounted() {
@@ -61,9 +82,19 @@ export default {
     },
 
     methods: {
+      formatPrice(value) {
+        let val = (value / 1).toFixed(0).replace(",", ".");
+        return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      },
+      date(value){
+        return moment(value).format("DD/MM/YYYY");
+      },
         GetTran(page){
           this.$axios.get("/sanctum/csrf-cookie").then((response)=>{
-            this.$axios.get(`api/transection?page=${page}`).then((response)=>{
+            this.$axios.post(`api/transection?page=${page}`,{
+              month_type: this.month_type,
+              dmy: this.dmy
+            }).then((response)=>{
               this.TranData = response.data;
             }).catch((error)=>{
               console.log(error);
