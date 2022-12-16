@@ -45,5 +45,6 @@ Route::group(['prefix' => 'transection', 'middleware' => 'auth:sanctum'], functi
 
 Route::group(['prefix' => 'report', 'middleware' => 'auth:sanctum'], function(){
     Route::post('/',[ReportController::class,'index']);
+    Route::get('/dashgrap',[ReportController::class,'dashgrap']);
 
 });

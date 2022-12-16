@@ -2,7 +2,9 @@
     <div>
       
       <div class="col-md-12 col-lg-12">
-    
+        
+        <DashGrap/>
+
     <div class="row">
         <div class="co-md-12">
             <div class="card">

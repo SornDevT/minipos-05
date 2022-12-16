@@ -1,64 +1,9 @@
 <template>
     <div>
     <div class="col-md-12 col-lg-12">
-    <div class="row">
-        <div class="col-lg-3 col-md-3 col-6 mb-4">
-        <div class="card">
-          <div class="card-body pb-0">
-            <span class="d-block fw-semibold">ລາຍຮັບ</span>
-          </div>
-         
-          <div class="p-3 pt-2 d-flex justify-content-between">
-            <i class='menu-icon bx bx-line-chart'></i>
-            <span>aaaa</span>
-          </div>
-        <div class="resize-triggers"><div class="expand-trigger"><div style="width: 139px; height: 199px;"></div></div><div class="contract-trigger"></div></div></div>
-      </div>
 
-      <div class="col-lg-3 col-md-3 col-6 mb-4">
-        <div class="card">
-          <div class="card-body pb-0">
-            <span class="d-block fw-semibold">ລາຍຈ່າຍ</span>
-          </div>
-         
-          <div class="p-3 pt-2 d-flex justify-content-between">
-            <i class=' menu-icon bx bx-line-chart'></i>
-            <span>aaaa</span>
-          </div>
-        <div class="resize-triggers"><div class="expand-trigger"><div style="width: 139px; height: 199px;"></div></div><div class="contract-trigger"></div></div></div>
-      </div>
-
-      <div class="col-lg-3 col-md-3 col-6 mb-4">
-        <div class="card">
-          <div class="card-body pb-0">
-            <span class="d-block fw-semibold">ກຳໄລ</span>
-          </div>
-         
-          <div class="p-3 pt-2 d-flex justify-content-between">
-            <i class='menu-icon bx bx-line-chart'></i>
-            <span>aaaa</span>
-          </div>
-        <div class="resize-triggers"><div class="expand-trigger"><div style="width: 139px; height: 199px;"></div></div><div class="contract-trigger"></div></div></div>
-      </div>
-
-      <div class="col-lg-3 col-md-3 col-6 mb-4">
-        <div class="card">
-          <div class="card-body pb-0">
-            <span class="d-block fw-semibold">ສະຕ໋ອກສິນຄ້າ</span>
-          </div>
-         
-          <div class="p-3 pt-2 d-flex justify-content-between">
-            <i class='menu-icon bx bx-line-chart'></i>
-            <span>aaaa</span>
-          </div>
-        <div class="resize-triggers"><div class="expand-trigger"><div style="width: 139px; height: 199px;"></div></div><div class="contract-trigger"></div></div></div>
-      </div>
-
-      
-  
-   
-     
-    </div>
+    <DashGrap/>
+    
     <div class="row">
         <div class="co-md-12">
             <div class="card">

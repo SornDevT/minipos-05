@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transection;
+use App\Models\Store;
 
 class ReportController extends Controller
 {
@@ -47,5 +48,20 @@ class ReportController extends Controller
 
         return response()->json($response);
 
+    }
+
+    public function dashgrap(){
+
+            $income = Transection::where("tran_type","income")->get();
+            $expense = Transection::where("tran_type","expense")->get();
+            $store = Store::where("amount","!=","0")->get();
+
+            $response = [
+                'income'=> $income,
+                'expense'=> $expense,
+                'store'=> $store
+            ];
+    
+            return response()->json($response);
     }
 }
