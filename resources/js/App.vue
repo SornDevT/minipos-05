@@ -646,7 +646,9 @@ export default {
       logout(){
             this.$axios.post("/api/logout").then((response)=>{
                 if(response.data.success){
-                  window.location.href = "/login"
+                  
+                  //window.location.href = "/login"
+                  location.reload();
                 }
                 }).catch((error)=>{
                   console.log(error)

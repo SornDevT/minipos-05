@@ -121,7 +121,14 @@ export default {
 
                         if(response.data.success){
                           this.show_error = false;
-                            window.location.href = "/store";
+                          // ເພີ່ມ
+                          this.email = '';
+                          this.password = '';
+
+                            //window.location.href = "/store";
+
+                            location.reload();
+
                         } else {
                           console.log(response.data.message);
                          this.show_error = true;
