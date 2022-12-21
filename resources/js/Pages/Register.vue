@@ -139,7 +139,8 @@ export default {
       if(!window.Laravel.isLoggin){
         next();
       }else{
-        window.location.href = "/store"
+        //window.location.href = "/store"
+        location.reload();
       }
     }
 };

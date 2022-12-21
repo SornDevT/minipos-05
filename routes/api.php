@@ -2,10 +2,11 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\StoreController;
 use App\Http\Controllers\UserController;
-use App\Http\controllers\TransectionController;
-use App\Http\controllers\ReportController;
+use App\Http\Controllers\TransectionController;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------

@@ -372,7 +372,8 @@ export default {
       if(window.Laravel.isLoggin){
         next();
       }else{
-        window.location.href = "/login"
+        location.reload();
+        //window.location.href = "/login"
       }
     }
 };
