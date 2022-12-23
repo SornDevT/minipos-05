@@ -678,7 +678,7 @@ export default {
     //     }
     // },
     created(){
-      console.log(this.$storage.getStorageSync('isLoggin'));
+      //console.log(this.$storage.getStorageSync('isLoggin'));
 
 
       if(window.Laravel.isLoggin){

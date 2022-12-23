@@ -19773,7 +19773,8 @@ __webpack_require__.r(__webpack_exports__);
   //     }
   // },
   created: function created() {
-    console.log(this.$storage.getStorageSync('isLoggin'));
+    //console.log(this.$storage.getStorageSync('isLoggin'));
+
     if (window.Laravel.isLoggin) {
       this.isLoggin = true;
     } else {
@@ -19836,16 +19837,16 @@ __webpack_require__.r(__webpack_exports__);
         console.log(error);
       });
     }
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    if (!window.Laravel.isLoggin) {
-      next();
-    } else {
-      //to();
-      window.location.href = "/store";
-      //location.reload();
-    }
   }
+  // beforeRouteEnter(to, from, next){
+  //   if(!window.Laravel.isLoggin){
+  //     next();
+  //   }else{
+  //     //to();
+  //     window.location.href = "/store"
+  //     //location.reload();
+  //   }
+  // }
 });
 
 /***/ }),
@@ -20048,18 +20049,18 @@ __webpack_require__.r(__webpack_exports__);
   watch: {},
   created: function created() {
     this.getDataStore();
-    if (!this.$storage.getStorageSync('isLoggin')) {
-      window.location.href = "/login";
-    }
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    if (window.Laravel.isLoggin) {
-      next();
-    } else {
-      window.location.href = "/login";
-      //location.reload();
-    }
-  }
+
+    // if(!this.$storage.getStorageSync('isLoggin')){
+    //     window.location.href = "/login"
+    //   }
+  } // beforeRouteEnter(to, from, next) {
+  //   if (window.Laravel.isLoggin) {
+  //     next();
+  //   } else {
+  //     window.location.href = "/login";
+  //     //location.reload();
+  //   }
+  // },
 });
 
 /***/ }),
@@ -20404,20 +20405,21 @@ __webpack_require__.r(__webpack_exports__);
       }
       return databack;
     }
-  },
-  created: function created() {
-    if (!this.$storage.getStorageSync('isLoggin')) {
-      window.location.href = "/login";
-    }
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    if (window.Laravel.isLoggin) {
-      next();
-    } else {
-      window.location.href = "/login";
-      //location.reload();
-    }
   }
+  // created(){
+  //   if(!this.$storage.getStorageSync('isLoggin')){
+  //     window.location.href = "/login"
+  //   }
+  // },
+  // beforeRouteEnter(to, from, next){
+  //   if(window.Laravel.isLoggin){
+  //     next();
+  //   }else{
+
+  //     window.location.href = "/login"
+  //     //location.reload();
+  //   }
+  // }
 });
 
 /***/ }),
@@ -20667,18 +20669,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.getDataStore();
-    if (!this.$storage.getStorageSync('isLoggin')) {
-      window.location.href = "/login";
-    }
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    if (window.Laravel.isLoggin) {
-      next();
-    } else {
-      //location.reload();
-      window.location.href = "/login";
-    }
-  }
+    // if(!this.$storage.getStorageSync('isLoggin')){
+    //   window.location.href = "/login"
+    // }
+  } // beforeRouteEnter(to, from, next){
+  //   if(window.Laravel.isLoggin){
+  //     next();
+  //   }else{
+  //     //location.reload();
+  //     window.location.href = "/login"
+  //   }
+  // }
 });
 
 /***/ }),
@@ -20734,18 +20735,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   created: function created() {
     this.GetTran();
-    if (!this.$storage.getStorageSync('isLoggin')) {
-      window.location.href = "/login";
-    }
-  },
-  beforeRouteEnter: function beforeRouteEnter(to, from, next) {
-    if (window.Laravel.isLoggin) {
-      next();
-    } else {
-      window.location.href = "/login";
-      //location.reload();
-    }
-  }
+    // if(!this.$storage.getStorageSync('isLoggin')){
+    //   window.location.href = "/login"
+    // }
+  } // beforeRouteEnter(to, from, next){
+  //   if(window.Laravel.isLoggin){
+  //     next();
+  //   }else{
+  //     window.location.href = "/login"
+  //     //location.reload();
+  //   }
+  // }
 });
 
 /***/ }),
@@ -22757,14 +22757,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__),
 /* harmony export */   "routes": () => (/* binding */ routes)
 /* harmony export */ });
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-/* harmony import */ var _Pages_Login_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../Pages/Login.vue */ "./resources/js/Pages/Login.vue");
-/* harmony import */ var _Pages_Register_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Pages/Register.vue */ "./resources/js/Pages/Register.vue");
-/* harmony import */ var _Pages_Store_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Pages/Store.vue */ "./resources/js/Pages/Store.vue");
-/* harmony import */ var _Pages_Pos_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Pages/Pos.vue */ "./resources/js/Pages/Pos.vue");
-/* harmony import */ var _Pages_Transection_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Pages/Transection.vue */ "./resources/js/Pages/Transection.vue");
-/* harmony import */ var _Pages_Report_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Pages/Report.vue */ "./resources/js/Pages/Report.vue");
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
+/* harmony import */ var vue3_storage__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue3-storage */ "./node_modules/vue3-storage/vue3-storage.esm.js");
+/* harmony import */ var _Pages_Login_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Pages/Login.vue */ "./resources/js/Pages/Login.vue");
+/* harmony import */ var _Pages_Register_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Pages/Register.vue */ "./resources/js/Pages/Register.vue");
+/* harmony import */ var _Pages_Store_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Pages/Store.vue */ "./resources/js/Pages/Store.vue");
+/* harmony import */ var _Pages_Pos_vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Pages/Pos.vue */ "./resources/js/Pages/Pos.vue");
+/* harmony import */ var _Pages_Transection_vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Pages/Transection.vue */ "./resources/js/Pages/Transection.vue");
+/* harmony import */ var _Pages_Report_vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Pages/Report.vue */ "./resources/js/Pages/Report.vue");
 
+
+var storage = (0,vue3_storage__WEBPACK_IMPORTED_MODULE_0__.useStorage)();
 
 
 
@@ -22774,51 +22777,59 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   name: "Login Page1",
   path: "/",
-  component: _Pages_Login_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  component: _Pages_Login_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
   name: "Login Page",
   path: "/login",
-  component: _Pages_Login_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  component: _Pages_Login_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
   name: "Register Page",
   path: "/register",
-  component: _Pages_Register_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+  component: _Pages_Register_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
 }, {
   name: "Store Page",
   path: "/store",
-  component: _Pages_Store_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+  component: _Pages_Store_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
 }, {
   name: "POS Page",
   path: "/pos",
-  component: _Pages_Pos_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
+  component: _Pages_Pos_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, {
   name: "Transection Page",
   path: "/transection",
-  component: _Pages_Transection_vue__WEBPACK_IMPORTED_MODULE_4__["default"]
+  component: _Pages_Transection_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
 }, {
   name: "Report Page",
   path: "/report",
-  component: _Pages_Report_vue__WEBPACK_IMPORTED_MODULE_5__["default"]
+  component: _Pages_Report_vue__WEBPACK_IMPORTED_MODULE_6__["default"]
 }];
-var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_6__.createRouter)({
-  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_6__.createWebHistory)(),
+var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_7__.createRouter)({
+  history: (0,vue_router__WEBPACK_IMPORTED_MODULE_7__.createWebHistory)(),
   routes: routes,
   scrollBehavior: function scrollBehavior() {
     window.scrollTo(0, 0);
   }
 });
+router.beforeEach(function (to, from, next) {
+  // console.log(storage.getStorageSync('isLoggin'));
 
-// router.beforeEach((to, from, next) => {
-//     console.log(window.Laravel.isLoggin)
-//     if(window.Laravel.isLoggin){
-//       next();
-//     }else{
-
-//       //location.reload();
-//       window.location.href = "/login"
-//     }
-//   });
-
+  //    console.log(to.path)
+  if (to.path !== '/login' && !storage.getStorageSync('isLoggin') && !window.Laravel.isLoggin) {
+    next({
+      path: '/login',
+      replace: true
+    });
+  } else {
+    if (to.path == '/login' && storage.getStorageSync('isLoggin') && window.Laravel.isLoggin) {
+      next({
+        path: '/store',
+        replace: true
+      });
+    } else {
+      next();
+    }
+  }
+});
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (router);
 
 /***/ }),

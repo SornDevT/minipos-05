@@ -146,15 +146,15 @@ export default {
 
         }
     },
-    beforeRouteEnter(to, from, next){
-      if(!window.Laravel.isLoggin){
-        next();
-      }else{
-        //to();
-        window.location.href = "/store"
-        //location.reload();
-      }
-    }
+    // beforeRouteEnter(to, from, next){
+    //   if(!window.Laravel.isLoggin){
+    //     next();
+    //   }else{
+    //     //to();
+    //     window.location.href = "/store"
+    //     //location.reload();
+    //   }
+    // }
 };
 </script>
 

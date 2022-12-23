@@ -1,4 +1,6 @@
 import { createWebHistory, createRouter } from "vue-router"
+import { useStorage } from "vue3-storage";
+const storage = useStorage();
 
 import Login from "../Pages/Login.vue"
 import Register from "../Pages/Register.vue"
@@ -53,15 +55,27 @@ const router = createRouter({
     }
 });
 
-// router.beforeEach((to, from, next) => {
-//     console.log(window.Laravel.isLoggin)
-//     if(window.Laravel.isLoggin){
-//       next();
-//     }else{
-     
-//       //location.reload();
-//       window.location.href = "/login"
-//     }
-//   });
+router.beforeEach((to, from, next) => {
+   // console.log(storage.getStorageSync('isLoggin'));
+  
+//    console.log(to.path)
+    if(to.path!=='/login' && !storage.getStorageSync('isLoggin') && !window.Laravel.isLoggin){
+      next({
+        path:'/login',
+        replace: true
+      });
+    }else{
+        if(to.path =='/login' && storage.getStorageSync('isLoggin') && window.Laravel.isLoggin){
+            next({
+              path:'/store',
+              replace: true
+            });
+          } else {
+            next();
+          }
+         
+    }
+    
+  });
 
 export default router
