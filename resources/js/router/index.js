@@ -51,6 +51,17 @@ const router = createRouter({
     scrollBehavior(){
         window.scrollTo(0,0)
     }
-})
+});
+
+// router.beforeEach((to, from, next) => {
+//     console.log(window.Laravel.isLoggin)
+//     if(window.Laravel.isLoggin){
+//       next();
+//     }else{
+     
+//       //location.reload();
+//       window.location.href = "/login"
+//     }
+//   });
 
 export default router

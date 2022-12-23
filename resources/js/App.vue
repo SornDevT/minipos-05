@@ -629,6 +629,9 @@
 </template>
 
 <script>
+
+
+
 export default {
     name: 'Minipos5App',
 
@@ -648,7 +651,10 @@ export default {
                 if(response.data.success){
                   
                   //window.location.href = "/login"
-                  location.reload();
+                  //location.reload(true);
+                  // this.$router.replace({ path: '/login' })
+                  this.$storage.setStorageSync("isLoggin", false);
+                  window.location.href = window.location.href.replace(/#.*$/,'');
                 }
                 }).catch((error)=>{
                   console.log(error)
@@ -659,11 +665,21 @@ export default {
     computed(){
 
     },
-    whatch:{
-        
-    },
+    // whatch:{
+    //     $route:{
+    //       handler(){
+    //         console.log('aaaaa')
+    //         if(window.Laravel.isLoggin){
+    //           this.$axios.get("/sanctum/csrf-cookie").then((response)=>{
+    //             console.log(response.data); 
+    //           });
+    //         }
+    //       }
+    //     }
+    // },
     created(){
-      console.log(window.Laravel.isLoggin);
+      console.log(this.$storage.getStorageSync('isLoggin'));
+
 
       if(window.Laravel.isLoggin){
         this.isLoggin = true

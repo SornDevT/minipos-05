@@ -336,12 +336,18 @@ export default {
         },
         
     },
+    created(){
+      if(!this.$storage.getStorageSync('isLoggin')){
+        window.location.href = "/login"
+      }
+    },
     beforeRouteEnter(to, from, next){
       if(window.Laravel.isLoggin){
         next();
       }else{
-        //window.location.href = "/login"
-        location.reload();
+        
+        window.location.href = "/login"
+        //location.reload();
       }
     }
 };

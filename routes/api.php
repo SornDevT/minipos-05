@@ -23,6 +23,7 @@ use App\Http\Controllers\ReportController;
 //     return $request->user();
 // });
 
+Route::get('users/checkauth',[UserController::class,'checkauth']);
 
 Route::post('register',[UserController::class,'register']);
 Route::post('login',[UserController::class,'login']);

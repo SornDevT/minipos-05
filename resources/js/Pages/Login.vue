@@ -125,9 +125,14 @@ export default {
                           this.email = '';
                           this.password = '';
 
+                          this.$storage.setStorageSync("isLoggin", true);
+
                             //window.location.href = "/store";
 
-                            location.reload();
+                            //location.reload();
+
+                            this.$router.go('/store')
+                            
 
                         } else {
                           console.log(response.data.message);
@@ -145,7 +150,9 @@ export default {
       if(!window.Laravel.isLoggin){
         next();
       }else{
+        //to();
         window.location.href = "/store"
+        //location.reload();
       }
     }
 };

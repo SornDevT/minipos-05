@@ -101,4 +101,18 @@ class UserController extends Controller
         
         return response()->json($response);
      }
+
+     public function checkauth(){
+        if(Auth::check()){
+            $isLoggin = true;
+        } else {
+            $isLoggin = false;
+        }
+
+        $response = [
+            'isLoggin' => $isLoggin
+        ];
+
+        return response()->json($response);
+     }
 }

@@ -135,12 +135,15 @@ export default {
             }
         }
     },
+    created(){
+
+    },
     beforeRouteEnter(to, from, next){
       if(!window.Laravel.isLoggin){
         next();
       }else{
-        //window.location.href = "/store"
-        location.reload();
+        window.location.href = "/store"
+        //location.reload();
       }
     }
 };
